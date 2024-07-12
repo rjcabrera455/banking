@@ -11,6 +11,26 @@ export default [
                 component: () => import('@/views/dashboard/Dashboard.vue')
             },
             {
+                path: '/transactions/deposit',
+                name: 'transactions.deposit',
+                component: () => import('@/views/transactions/DepositCreate.vue')
+            },
+            {
+                path: '/transactions/withdraw',
+                name: 'transactions.withdraw',
+                component: () => import('@/views/transactions/WithdrawCreate.vue')
+            },
+            {
+                path: '/transactions/transfer',
+                name: 'transactions.transfer',
+                component: () => import('@/views/transactions/TransferCreate.vue')
+            },
+            {
+                path: '/transactions/',
+                name: 'transactions.index',
+                component: () => import('@/views/transactions/Transactions.vue')
+            },
+            {
                 path: '/uikit/formlayout',
                 name: 'formlayout',
                 component: () => import('@/views/uikit/FormLayout.vue')

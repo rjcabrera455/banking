@@ -13,16 +13,16 @@ if (userType == 'Customer') {
             items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
         },
         {
-            items: [{ label: 'Deposit', icon: 'pi pi-fw pi-money-bill', to: '#' }]
+            items: [{ label: 'Deposit', icon: 'pi pi-fw pi-money-bill', to: '/transactions/deposit' }]
         },
         {
-            items: [{ label: 'Transfer', icon: 'pi pi-fw pi-arrow-right-arrow-left', to: '#' }]
+            items: [{ label: 'Transfer', icon: 'pi pi-fw pi-arrow-right-arrow-left', to: '/transactions/transfer' }]
         },
         {
-            items: [{ label: 'Withdraw', icon: 'pi pi-fw pi-credit-card ', to: '#' }]
+            items: [{ label: 'Withdraw', icon: 'pi pi-fw pi-credit-card ', to: '/transactions/withdraw' }]
         },
         {
-            items: [{ label: 'Transaction History', icon: 'pi pi-history', to: '#' }]
+            items: [{ label: 'Transactions', icon: 'pi pi-history', to: '/transactions' }]
         }
     ];
 } else {
