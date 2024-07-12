@@ -5,9 +5,9 @@ import AppMenuItem from './AppMenuItem.vue';
 
 const model = ref([]);
 
-const userType = 'Client';
+const userType = 'Customer';
 
-if (userType == 'Admin') {
+if (userType == 'Customer') {
     model.value = [
         {
             items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
