@@ -31,6 +31,31 @@ export default [
                 component: () => import('@/views/transactions/Transactions.vue')
             },
             {
+                path: '/reports/transaction',
+                name: 'reports.transaction',
+                component: () => import('@/views/reports/TransactionReport.vue')
+            },
+            {
+                path: '/accounts',
+                name: 'accounts.index',
+                component: () => import('@/views/accounts/Accounts.vue')
+            },
+            {
+                path: '/accounts/create',
+                name: 'accounts.create',
+                component: () => import('@/views/accounts/AccountsCreate.vue')
+            },
+            {
+                path: '/announcements',
+                name: 'announcements.index',
+                component: () => import('@/views/announcements/Announcements.vue')
+            },
+            {
+                path: '/settings/system',
+                name: 'settings.system',
+                component: () => import('@/views/settings/SettingsSystem.vue')
+            },
+            {
                 path: '/uikit/formlayout',
                 name: 'formlayout',
                 component: () => import('@/views/uikit/FormLayout.vue')

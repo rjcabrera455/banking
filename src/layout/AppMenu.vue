@@ -5,7 +5,7 @@ import AppMenuItem from './AppMenuItem.vue';
 
 const model = ref([]);
 
-const userType = 'Customer';
+const userType = 'Admin';
 
 if (userType == 'Customer') {
     model.value = [
@@ -36,15 +36,18 @@ if (userType == 'Customer') {
                 {
                     label: 'Reports',
                     icon: 'pi pi-fw pi-chart-bar',
-                    items: [{ label: 'Transaction Report', to: '#' }]
+                    items: [{ label: 'Transaction Report', to: '/reports/transaction' }]
                 }
             ]
         },
         {
-            items: [{ label: 'Users', icon: 'pi pi-users', to: '#' }]
+            items: [{ label: 'Accounts', icon: 'pi pi-credit-card', to: '/accounts' }]
         },
         {
-            items: [{ label: 'Configurations', icon: 'pi pi-cog', to: '#' }]
+            items: [{ label: 'Announcements', icon: 'pi pi-megaphone', to: '/announcements' }]
+        },
+        {
+            items: [{ label: 'System Settings', icon: 'pi pi-cog', to: '/settings/system' }]
         }
     ];
 }

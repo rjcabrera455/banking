@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import DashboardCustomer from './DashboardCustomer.vue';
-const userType = ref('Customer');
+import DashboardAdmin from './DashboardAdmin.vue';
+const userType = ref('Admin');
 </script>
 
 <template>
-    <DashboardCustomer />
+    <DashboardCustomer v-if="userType == 'Customer'" />
+    <DashboardAdmin v-else />
 </template>
