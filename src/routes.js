@@ -196,6 +196,13 @@ export default [
         component: () => import('@/views/pages/NotFound.vue')
     },
 
+    // Auth
+    {
+        path: '/auth/login',
+        name: 'auth.login',
+        component: () => import('@/views/auth/Login.vue')
+    },
+
     {
         path: '/auth/login',
         name: 'login',
