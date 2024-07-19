@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -36,12 +37,23 @@ class AuthController extends Controller
                 'access_token' => $accessToken,
                 'message' => 'Login successful. Welcome back!',
             ], Response::HTTP_CREATED);
-            
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function user(Request $request)
+    {
+        try {
+            $relations = [];
+            $user = $request->user()->load($relations);
+            $data = new UserResource($user);
+            return response()->json(['data' => $data], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching user information.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
