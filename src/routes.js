@@ -8,41 +8,49 @@ export default [
             {
                 path: '/',
                 name: 'dashboard',
+                meta: { requiresAuth: true },
                 component: () => import('@/views/dashboard/Dashboard.vue')
             },
             {
                 path: '/transactions/deposit',
                 name: 'transactions.deposit',
+                meta: { requiresAuth: true, role: 'Customer' },
                 component: () => import('@/views/transactions/DepositCreate.vue')
             },
             {
                 path: '/transactions/withdraw',
                 name: 'transactions.withdraw',
+                meta: { requiresAuth: true, role: 'Customer' },
                 component: () => import('@/views/transactions/WithdrawCreate.vue')
             },
             {
                 path: '/transactions/transfer',
                 name: 'transactions.transfer',
+                meta: { requiresAuth: true, role: 'Customer' },
                 component: () => import('@/views/transactions/TransferCreate.vue')
             },
             {
                 path: '/transactions/',
                 name: 'transactions.index',
+                meta: { requiresAuth: true, role: 'Customer' },
                 component: () => import('@/views/transactions/Transactions.vue')
             },
             {
                 path: '/reports/transaction',
                 name: 'reports.transaction',
+                meta: { requiresAuth: true, role: 'Admin' },
                 component: () => import('@/views/reports/TransactionReport.vue')
             },
             {
                 path: '/accounts',
                 name: 'accounts.index',
+                meta: { requiresAuth: true, role: 'Admin' },
                 component: () => import('@/views/accounts/Accounts.vue')
             },
             {
                 path: '/accounts/create',
                 name: 'accounts.create',
+                meta: { requiresAuth: true, role: 'Admin' },
                 component: () => import('@/views/accounts/AccountsCreate.vue')
             },
             {
@@ -53,6 +61,7 @@ export default [
             {
                 path: '/settings/system',
                 name: 'settings.system',
+                meta: { requiresAuth: true, role: 'Admin' },
                 component: () => import('@/views/settings/SettingsSystem.vue')
             },
             {
@@ -200,19 +209,26 @@ export default [
     {
         path: '/auth/login',
         name: 'auth.login',
+        meta: { requiresAuth: false },
         component: () => import('@/views/auth/Login.vue')
     },
 
     {
-        path: '/auth/login',
-        name: 'login',
-        component: () => import('@/views/pages/auth/Login.vue')
-    },
-    {
         path: '/auth/access',
-        name: 'accessDenied',
-        component: () => import('@/views/pages/auth/Access.vue')
+        name: 'auth.access-denied',
+        component: () => import('@/views/auth/AccessDenied.vue')
     },
+
+    // {
+    //     path: '/auth/login',
+    //     name: 'login',
+    //     component: () => import('@/views/pages/auth/Login.vue')
+    // },
+    // {
+    //     path: '/auth/access',
+    //     name: 'accessDenied',
+    //     component: () => import('@/views/pages/auth/Access.vue')
+    // },
     {
         path: '/auth/error',
         name: 'error',

@@ -4,6 +4,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import routes from './routes.js';
+import { useAuthStore } from '@/stores/auth';
 
 import PrimeVue from 'primevue/config';
 import AutoComplete from 'primevue/autocomplete';
@@ -120,6 +121,27 @@ const app = createApp(App);
 const router = createRouter({
     routes: routes,
     history: createWebHistory()
+});
+
+router.beforeEach(async (to, from) => {
+    const authStore = useAuthStore();
+    if (to.meta.requiresAuth && !authStore.checkToken && to.name !== 'auth.login') {
+        return { name: 'auth.login' };
+    } else if (authStore.checkToken && to.name == 'auth.login') {
+        return { name: 'dashboard' };
+    } else if (to.meta.requiresAuth && authStore.checkToken) {
+        if (!authStore.user.length) {
+            window.axios.get('auth/user').then((response) => {
+                authStore.user = response.data.data;
+
+                const requiredRole = to.meta.role;
+
+                if (requiredRole && authStore.user.role !== requiredRole) {
+                    router.push({ name: 'auth.access-denied' });
+                }
+            });
+        }
+    }
 });
 
 app.use(pinia);
