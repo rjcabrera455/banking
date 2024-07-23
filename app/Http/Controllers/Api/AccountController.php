@@ -86,7 +86,8 @@ class AccountController extends Controller
     {
         try {
             DB::beginTransaction();
-            $account->delete();
+            $user = User::find($account->user_id);
+            $user->delete();
             DB::commit();
             return response()->json(['message' => 'Account deleted successfully']);
         } catch (\Exception $e) {
