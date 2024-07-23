@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     // Auth
     Route::get('auth/user', [AuthController::class, 'user']);
+
+    // Accounts
+    Route::get('accounts', [AccountController::class, 'index']);
+    Route::post('accounts', [AccountController::class, 'store']);
+    Route::get('accounts/{account}', [AccountController::class, 'show']);
+    Route::put('accounts/{account}', [AccountController::class, 'update']);
+    Route::delete('accounts/{account}', [AccountController::class, 'destroy']);
 });
 
 Route::post('auth/login', [AuthController::class, 'login'])->middleware('guest');
