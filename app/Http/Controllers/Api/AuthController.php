@@ -45,6 +45,19 @@ class AuthController extends Controller
         }
     }
 
+    public function logout(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $request->user()->tokens()->delete();
+            DB::commit();
+            return response()->json(['message' => 'Logged out successfully']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'An error occurred during logout.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function user(Request $request)
     {
         try {
