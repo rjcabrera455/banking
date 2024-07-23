@@ -2,13 +2,15 @@
 import { onMounted, reactive, ref } from 'vue';
 import accountService from '@/service/accountService';
 import ValidationErrorMessage from '@/components/ValidationErrorMessage.vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import useToast from '@/utils/toast';
 
 const toast = useToast();
 const errors = ref({});
 const router = useRouter();
+const route = useRoute();
 const submitting = ref(false);
+const loading = ref(false);
 
 const form = reactive({
     first_name: '',
@@ -21,11 +23,34 @@ const form = reactive({
     pin: null
 });
 
-function addAccount() {
+const getAccount = () => {
+    loading.value = true;
+    accountService
+        .getAccount(route.params.id, { include: 'user' })
+        .then((response) => {
+            const data = response.data.data;
+            form.first_name = data.user.first_name;
+            form.middle_name = data.user.middle_name;
+            form.last_name = data.user.last_name;
+            form.email = data.user.email;
+            form.mobile_number = data.user.mobile_number;
+            form.pin = data.pin;
+        })
+        .catch((error) => {
+            toast.error(error.response.data.error, error.response.data.message);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
+
+onMounted(() => getAccount());
+
+function updateAccount() {
     submitting.value = true;
     errors.value = {};
     accountService
-        .addAccount(form)
+        .updateAccount(form, route.params.id)
         .then((response) => {
             toast.success(response.data.message);
             router.push({ name: 'accounts.index' });
@@ -39,16 +64,14 @@ function addAccount() {
         })
         .finally(() => {
             submitting.value = false;
-            form.password = '';
-            form.password_confirmation = '';
         });
 }
 </script>
 
 <template>
     <div class="card border-0 shadow-1">
-        <h5>Create New Account</h5>
-        <form action="" method="post" @submit.prevent="addAccount">
+        <h5>Update Account</h5>
+        <form action="" method="post" @submit.prevent="updateAccount">
             <div class="p-fluid formgrid grid">
                 <!-- First Name -->
                 <div class="field col-12 md:col-4">
@@ -109,7 +132,7 @@ function addAccount() {
 
             <div class="flex gap-3 mt-1">
                 <Button label="Cancel" severity="secondary" outlined />
-                <Button type="submit" label="Add" :loading="submitting" />
+                <Button type="submit" label="Update" :loading="submitting" />
             </div>
         </form>
     </div>

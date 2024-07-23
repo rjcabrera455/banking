@@ -1,38 +1,66 @@
 <script setup>
 import { FilterMatchMode } from 'primevue/api';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
+import accountService from '@/service/accountService';
+import useToast from '@/utils/toast';
+import useHelper from '@/utils/helper';
+import { useAuthStore } from '@/stores/auth';
 
-const accounts = ref([
-    {
-        account_number: '123456789',
-        name: 'John Doe',
-        current_balance: 10000,
-        created_at: '2024-07-12',
-        updated_at: '2024-07-12'
-    },
-    {
-        account_number: '123456789',
-        name: 'Jane Doe',
-        current_balance: 10000,
-        created_at: '2024-07-12',
-        updated_at: '2024-07-12'
-    },
-    {
-        account_number: '123456789',
-        name: 'John Smith',
-        current_balance: 10000,
-        created_at: '2024-07-12',
-        updated_at: '2024-07-12'
-    }
-]);
-const loading = ref(false);
+const authStore = useAuthStore();
+const toast = useToast();
+
+const accounts = ref([]);
+const deleteAccountDialog = ref(false);
+const account = ref({});
 
 const dt = ref(null);
 const filters = ref({});
+const loading = ref(false);
+// const helper = useHelper();
+
+const getAccounts = () => {
+    loading.value = true;
+    accountService
+        .getAccounts({ include: 'user' })
+        .then((response) => {
+            accounts.value = response.data.data;
+        })
+        .catch((error) => {
+            console.log(error);
+            toast.error(error.response.data.error, error.response.data.message);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
 
 onBeforeMount(() => {
     initFilters();
 });
+
+onMounted(() => {
+    getAccounts();
+});
+
+const confirmDeletAccount = (data) => {
+    account.value = data;
+    deleteAccountDialog.value = true;
+};
+
+const deleteAccount = () => {
+    accountService
+        .deleteAccount(account.value.id)
+        .then((response) => {
+            const id = account.value.id;
+            accounts.value = accounts.value.filter((account) => account.id !== id);
+            deleteAccountDialog.value = false;
+            account.value = {};
+            toast.success(response.data.message);
+        })
+        .catch((error) => {
+            toast.error(error.response.data.error, error.response.data.message);
+        });
+};
 
 const exportCSV = () => {
     dt.value.exportCSV();
@@ -96,18 +124,18 @@ const initFilters = () => {
                     </Column>
 
                     <!-- Name -->
-                    <Column field="name" header="Name" :sortable="true">
+                    <Column field="user.full_name" header="Name" :sortable="true">
                         <template #body="slotProps">
                             <span class="p-column-title">Name</span>
-                            {{ slotProps.data.name }}
+                            {{ slotProps.data.user.full_name }}
                         </template>
                     </Column>
 
                     <!-- Current Balance -->
-                    <Column field="current_balance" header="Current Balance" :sortable="true">
+                    <Column field="balance" header="Current Balance" :sortable="true">
                         <template #body="slotProps">
                             <span class="p-column-title">Current Balance</span>
-                            {{ slotProps.data.current_balance }}
+                            {{ slotProps.data.balance }}
                         </template>
                     </Column>
 
@@ -130,12 +158,28 @@ const initFilters = () => {
                     <!-- Action Buttons -->
                     <Column>
                         <template #body="slotProps">
-                            <!-- <Button icon="pi pi-eye" class="mr-2" severity="secondary" rounded v-tooltip.top="'View Account'" /> -->
-                            <Button icon="pi pi-pencil" class="mr-2" rounded v-tooltip.top="'Edit Account'" />
-                            <Button icon="pi pi-trash" class="mr-2" severity="danger" rounded v-tooltip.top="'Delete Account'" />
+                            <RouterLink :to="{ name: 'accounts.edit', params: { id: slotProps.data.id } }">
+                                <Button icon="pi pi-pencil" class="mr-2" rounded v-tooltip.top="'Edit Account'" />
+                            </RouterLink>
+
+                            <Button icon="pi pi-trash" class="mt-2" severity="danger" rounded v-tooltip.top="'Delete Account'" @click="confirmDeletAccount(slotProps.data)" />
                         </template>
                     </Column>
                 </DataTable>
+
+                <Dialog v-model:visible="deleteAccountDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
+                    <div class="flex align-items-center justify-content-center">
+                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                        <span v-if="account">
+                            Are you sure you want to delete <b>{{ account.name }}</b
+                            >?
+                        </span>
+                    </div>
+                    <template #footer>
+                        <Button label="No" icon="pi pi-times" text @click="deleteAccountDialog = false" />
+                        <Button label="Yes" icon="pi pi-check" text @click="deleteAccount" />
+                    </template>
+                </Dialog>
             </div>
         </div>
     </div>

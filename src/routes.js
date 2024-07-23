@@ -54,6 +54,12 @@ export default [
                 component: () => import('@/views/accounts/AccountsCreate.vue')
             },
             {
+                path: '/accounts/:id/edit',
+                name: 'accounts.edit',
+                meta: { requiresAuth: true, role: 'Admin' },
+                component: () => import('@/views/accounts/AccountsEdit.vue')
+            },
+            {
                 path: '/announcements',
                 name: 'announcements.index',
                 component: () => import('@/views/announcements/Announcements.vue')
