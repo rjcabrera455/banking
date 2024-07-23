@@ -15,19 +15,19 @@ export default [
                 path: '/transactions/deposit',
                 name: 'transactions.deposit',
                 meta: { requiresAuth: true, role: 'Customer' },
-                component: () => import('@/views/transactions/DepositCreate.vue')
+                component: () => import('@/views/transactions/Deposit.vue')
             },
             {
                 path: '/transactions/withdraw',
                 name: 'transactions.withdraw',
                 meta: { requiresAuth: true, role: 'Customer' },
-                component: () => import('@/views/transactions/WithdrawCreate.vue')
+                component: () => import('@/views/transactions/Withdraw.vue')
             },
             {
                 path: '/transactions/transfer',
                 name: 'transactions.transfer',
                 meta: { requiresAuth: true, role: 'Customer' },
-                component: () => import('@/views/transactions/TransferCreate.vue')
+                component: () => import('@/views/transactions/Transfer.vue')
             },
             {
                 path: '/transactions/',
