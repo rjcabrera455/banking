@@ -79,4 +79,8 @@ watch(
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style>
+.p-datatable-loading-overlay {
+    background-color: #fff;
+}
+</style>
