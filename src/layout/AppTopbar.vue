@@ -2,12 +2,14 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useLayout } from '@/layout/composables/layout';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
 
 const { layoutConfig, onMenuToggle } = useLayout();
 
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
 const router = useRouter();
+const authStore = useAuthStore();
 
 onMounted(() => {
     bindOutsideClickListener();
@@ -27,6 +29,10 @@ const onTopBarMenuButton = () => {
 const onSettingsClick = () => {
     topbarMenuActive.value = false;
     router.push('/documentation');
+};
+const onLogoutClick = () => {
+    topbarMenuActive.value = false;
+    authStore.logout();
 };
 const topbarMenuClasses = computed(() => {
     return {
@@ -87,6 +93,10 @@ const isOutsideClicked = (event) => {
             <button @click="onSettingsClick()" class="p-link layout-topbar-button">
                 <i class="pi pi-cog"></i>
                 <span>Settings</span>
+            </button>
+            <button @click="onLogoutClick()" class="p-link layout-topbar-button">
+                <i class="pi pi-sign-out"></i>
+                <span>Logout</span>
             </button>
         </div>
     </div>
