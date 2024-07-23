@@ -27,7 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('auth/logout', [AuthController::class, 'logout']);
 
     // Dashboard
-    Route::get('dashboard.admin', [DashboardController::class, 'adminDashboard']);
+    Route::get('dashboard.admin', [DashboardController::class, 'admin']);
+    Route::get('dashboard.customer', [DashboardController::class, 'customer']);
 
     // Accounts
     Route::get('accounts', [AccountController::class, 'index']);
