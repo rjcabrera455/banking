@@ -61,7 +61,7 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         try {
-            $relations = [];
+            $relations = ['account'];
             $user = $request->user()->load($relations);
             $data = new UserResource($user);
             return response()->json(['data' => $data], Response::HTTP_OK);

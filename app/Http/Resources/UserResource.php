@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'role' => $this->role,
             'updated_at' => $this->updated_at,
             'full_name' => $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name,
+            'account' => new AccountResource($this->whenLoaded('account')),
         ];
     }
 }

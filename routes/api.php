@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('accounts/{account}', [AccountController::class, 'show']);
     Route::put('accounts/{account}', [AccountController::class, 'update']);
     Route::delete('accounts/{account}', [AccountController::class, 'destroy']);
+
+    // Transaction
+    Route::put('transactions/deposit', [TransactionController::class, 'deposit']);
 });
 
 Route::post('auth/login', [AuthController::class, 'login'])->middleware('guest');
