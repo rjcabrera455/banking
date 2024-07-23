@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import DashboardCustomer from './DashboardCustomer.vue';
 import DashboardAdmin from './DashboardAdmin.vue';
 import { useAuthStore } from '@/stores/auth';

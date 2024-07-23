@@ -15,7 +15,6 @@ const getAdminDashboard = () => {
             data.value = response.data.data;
         })
         .catch((error) => {
-            console.log(error);
             toast.error(error.response.data.error, error.response.data.message);
         })
         .finally(() => {
