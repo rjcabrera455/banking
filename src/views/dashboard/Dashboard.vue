@@ -2,10 +2,12 @@
 import { ref } from 'vue';
 import DashboardCustomer from './DashboardCustomer.vue';
 import DashboardAdmin from './DashboardAdmin.vue';
-const userType = ref('Admin');
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
 </script>
 
 <template>
-    <DashboardCustomer v-if="userType == 'Customer'" />
+    <DashboardCustomer v-if="authStore.user.role == 'Customer'" />
     <DashboardAdmin v-else />
 </template>
