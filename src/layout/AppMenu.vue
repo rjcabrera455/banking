@@ -43,13 +43,13 @@ const setMenuModel = (role) => {
             },
             {
                 items: [{ label: 'Accounts', icon: 'pi pi-credit-card', to: '/accounts' }]
-            },
-            {
-                items: [{ label: 'Announcements', icon: 'pi pi-megaphone', to: '/announcements' }]
-            },
-            {
-                items: [{ label: 'System Settings', icon: 'pi pi-cog', to: '/settings/system' }]
             }
+            // {
+            //     items: [{ label: 'Announcements', icon: 'pi pi-megaphone', to: '/announcements' }]
+            // },
+            // {
+            //     items: [{ label: 'System Settings', icon: 'pi pi-cog', to: '/settings/system' }]
+            // }
         ];
     }
 };

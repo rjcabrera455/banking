@@ -86,10 +86,10 @@ const isOutsideClicked = (event) => {
                 <i class="pi pi-calendar"></i>
                 <span>Calendar</span>
             </button> -->
-            <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">
+            <!-- <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">
                 <i class="pi pi-user"></i>
                 <span>Profile</span>
-            </button>
+            </button> -->
             <button @click="onSettingsClick()" class="p-link layout-topbar-button">
                 <i class="pi pi-cog"></i>
                 <span>Settings</span>
