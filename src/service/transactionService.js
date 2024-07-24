@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 const transactionService = {
+    getTransactions(params) {
+        return axios.get('transactions', { params });
+    },
     deposit(data) {
         return axios.put('transactions/deposit', data);
     },
