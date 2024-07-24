@@ -26,14 +26,14 @@ const form = reactive({
 const getAccount = () => {
     loading.value = true;
     accountService
-        .getAccount(route.params.id, { include: 'user' })
+        .getAccount(route.params.id)
         .then((response) => {
             const data = response.data.data;
-            form.first_name = data.user.first_name;
-            form.middle_name = data.user.middle_name;
-            form.last_name = data.user.last_name;
-            form.email = data.user.email;
-            form.mobile_number = data.user.mobile_number;
+            form.first_name = data.first_name;
+            form.middle_name = data.middle_name;
+            form.last_name = data.last_name;
+            form.email = data.email;
+            form.mobile_number = data.mobile_number;
             form.pin = data.pin;
         })
         .catch((error) => {
@@ -110,14 +110,14 @@ function updateAccount() {
 
                 <!-- Password -->
                 <div class="field col-12 md:col-6">
-                    <label for="password">Password <small class="p-error">*</small></label>
+                    <label for="password">Password </label>
                     <Password v-model="form.password" :invalid="Boolean(errors?.password?.at(0))" :inputProps="{ autocomplete: true, id: 'password' }" />
                     <ValidationErrorMessage :error="errors?.password?.at(0)" />
                 </div>
 
                 <!-- Password Confirmation -->
                 <div class="field col-12 md:col-6">
-                    <label for="password_confirmation">Confirm Password <small class="p-error">*</small></label>
+                    <label for="password_confirmation">Confirm Password </label>
                     <Password v-model="form.password_confirmation" :invalid="Boolean(errors?.password_confirmation?.at(0))" :inputProps="{ autocomplete: true, id: 'password_confirmation' }" />
                     <ValidationErrorMessage :error="errors?.password_confirmation?.at(0)" />
                 </div>
@@ -131,7 +131,9 @@ function updateAccount() {
             </div>
 
             <div class="flex gap-3 mt-1">
-                <Button label="Cancel" severity="secondary" outlined />
+                <RouterLink :to="{ name: 'dashboard' }">
+                    <Button label="Cancel" severity="secondary" outlined />
+                </RouterLink>
                 <Button type="submit" label="Update" :loading="submitting" />
             </div>
         </form>

@@ -8,6 +8,6 @@ const authStore = useAuthStore();
 </script>
 
 <template>
-    <DashboardCustomer v-if="authStore.user.role == 'Customer'" />
+    <DashboardCustomer v-if="authStore.user.role == 'Customer'" :user="authStore.user" />
     <DashboardAdmin v-else />
 </template>

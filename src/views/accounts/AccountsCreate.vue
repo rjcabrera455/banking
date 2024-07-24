@@ -108,7 +108,9 @@ function addAccount() {
             </div>
 
             <div class="flex gap-3 mt-1">
-                <Button label="Cancel" severity="secondary" outlined />
+                <RouterLink :to="{ name: 'dashboard' }">
+                    <Button label="Cancel" severity="secondary" outlined />
+                </RouterLink>
                 <Button type="submit" label="Add" :loading="submitting" />
             </div>
         </form>

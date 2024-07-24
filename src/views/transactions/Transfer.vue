@@ -11,7 +11,6 @@ const authStore = useAuthStore();
 
 const submitting = ref(false);
 const errors = ref([]);
-const isDisabled = ref(true);
 
 const account = reactive({
     account_number: '',
@@ -48,24 +47,12 @@ function transfer() {
         });
 }
 
-function getReceiverDetails() {
-    transactionService
-        .getReceiverDetails({ account_number: form.receiver_account_number })
-        .then((response) => {
-            const data = response.data.data;
-            form.receiver_name = data;
-        })
-        .catch((error) => {
-            toast.error(error.response.data.error, error.response.data.message);
-        });
-}
-
 watch(
     () => authStore.user,
     (newUser) => {
         if (newUser) {
-            account.account_number = authStore.user?.account?.account_number;
-            account.balance = Number(authStore.user?.account?.balance);
+            account.account_number = authStore.user?.account_number;
+            account.balance = Number(authStore.user?.balance);
         }
     },
     { immediate: true }

@@ -21,7 +21,7 @@ const loading = ref(false);
 const getAccounts = () => {
     loading.value = true;
     accountService
-        .getAccounts({ include: 'user' })
+        .getAccounts()
         .then((response) => {
             accounts.value = response.data.data;
         })
@@ -124,10 +124,10 @@ const initFilters = () => {
                     </Column>
 
                     <!-- Name -->
-                    <Column field="user.full_name" header="Name" :sortable="true">
+                    <Column field="full_name" header="Name" :sortable="true">
                         <template #body="slotProps">
                             <span class="p-column-title">Name</span>
-                            {{ slotProps.data.user.full_name }}
+                            {{ slotProps.data.full_name }}
                         </template>
                     </Column>
 

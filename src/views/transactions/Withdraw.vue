@@ -47,8 +47,8 @@ watch(
     () => authStore.user,
     (newUser) => {
         if (newUser) {
-            account.account_number = authStore.user?.account?.account_number;
-            account.balance = Number(authStore.user?.account?.balance);
+            account.account_number = authStore.user?.account_number;
+            account.balance = Number(authStore.user?.balance);
         }
     },
     { immediate: true }
@@ -79,7 +79,7 @@ watch(
                 <RouterLink :to="{ name: 'dashboard' }">
                     <Button label="Cancel" severity="secondary" outlined />
                 </RouterLink>
-                <Button type="submit" label="Withdraw" />
+                <Button type="submit" label="Withdraw" :loading="submitting" />
             </div>
         </form>
     </div>
