@@ -34,14 +34,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Accounts
     Route::get('accounts', [AccountController::class, 'index']);
     Route::post('accounts', [AccountController::class, 'store']);
-    Route::get('accounts/{account}', [AccountController::class, 'show']);
-    Route::put('accounts/{account}', [AccountController::class, 'update']);
-    Route::delete('accounts/{account}', [AccountController::class, 'destroy']);
+    Route::get('accounts/{user}', [AccountController::class, 'show']);
+    Route::put('accounts/{user}', [AccountController::class, 'update']);
+    Route::delete('accounts/{user}', [AccountController::class, 'destroy']);
 
     // Transaction
     Route::put('transactions/deposit', [TransactionController::class, 'deposit']);
     Route::put('transactions/withdraw', [TransactionController::class, 'withdraw']);
-    Route::get('transactions/receiver', [TransactionController::class, 'receiver']);
     Route::put('transactions/transfer', [TransactionController::class, 'transfer']);
 });
 

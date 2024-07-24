@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
-use App\Http\Resources\AccountResource;
+use App\Http\Resources\UserResource;
 use App\Http\Traits\RelationshipTrait;
-use App\Models\Account;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,8 +19,8 @@ class AccountController extends Controller
     public function index()
     {
         try {
-            $accounts = $this->loadRelationships(Account::query());
-            $data = AccountResource::collection($accounts->latest()->get());
+            $users = $this->loadRelationships(User::query());
+            $data = UserResource::collection($users->where('role', 'Customer')->latest()->get());
             return response()->json(['data' => $data], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -34,20 +33,10 @@ class AccountController extends Controller
             DB::beginTransaction();
             $validated = $request->validated();
 
-            $user = User::create([
-                'first_name' => $validated['first_name'],
-                'middle_name' => $validated['middle_name'],
-                'last_name' => $validated['last_name'],
-                'email' => $validated['email'],
-                'mobile_number' => $validated['mobile_number'],
-                'password' => $validated['password'],
-                'role' => 'Customer'
-            ]);
+            $validated['role'] = 'Customer';
+            $validated['account_number'] = rand(100000000, 999999999);
 
-            $user->account()->create([
-                'account_number' => rand(100000000, 999999999),
-                'pin' => $validated['pin']
-            ]);
+            User::create($validated);
 
             DB::commit();
             return response()->json(['message' => 'Account added successfully'], Response::HTTP_CREATED);
@@ -57,36 +46,38 @@ class AccountController extends Controller
         }
     }
 
-    public function show(Account $account)
+    public function show(User $user)
     {
         try {
-            $account = $this->loadRelationships($account);
-            $data = new AccountResource($account);
+            $user = $this->loadRelationships($user);
+            $data = new UserResource($user);
             return response()->json(['data' => $data], Response::HTTP_OK);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while fetching the account.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => 'An error occurred while fetching the acccount.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function update(AccountRequest $request, Account $account)
+    public function update(AccountRequest $request, User $user)
     {
         try {
             DB::beginTransaction();
             $validated = $request->validated();
-            $account->update($validated);
+            if (!$validated['password']) {
+                unset($validated['password']);
+            }
+            $user->update($validated);
             DB::commit();
             return response()->json(['message' => 'Account updated successfully'], Response::HTTP_ACCEPTED);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'An error occurred while updating the account.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function destroy(Account $account)
+    public function destroy(User $user)
     {
         try {
             DB::beginTransaction();
-            $user = User::find($account->user_id);
             $user->delete();
             DB::commit();
             return response()->json(['message' => 'Account deleted successfully']);

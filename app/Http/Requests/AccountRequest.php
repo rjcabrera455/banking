@@ -26,8 +26,8 @@ class AccountRequest extends FormRequest
             'first_name' => ['string', 'max:255', 'required'],
             'middle_name' => ['string', 'max:255', 'nullable'],
             'last_name' => ['string', 'max:255', 'required'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->user_id)],
-            'mobile_number' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($this->user_id)],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->user)],
+            'mobile_number' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($this->user)],
             'pin' => ['required', 'digits:4']
         ];
 

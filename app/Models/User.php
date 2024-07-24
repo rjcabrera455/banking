@@ -26,7 +26,10 @@ class User extends Authenticatable
         'email',
         'mobile_number',
         'password',
-        'role'
+        'role',
+        'account_number',
+        'balance',
+        'pin'
     ];
 
     /**
@@ -48,9 +51,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function account()
-    {
-        return $this->hasOne(Account::class);
-    }
 }

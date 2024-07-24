@@ -24,9 +24,11 @@ class UserResource extends JsonResource
             'mobile_number' => $this->mobile_number,
             'password' => $this->password,
             'role' => $this->role,
+            'account_number' => $this->account_number,
+            'balance' => $this->balance,
+            'pin' => $this->pin,
             'updated_at' => $this->updated_at,
             'full_name' => $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name,
-            'account' => new AccountResource($this->whenLoaded('account')),
         ];
     }
 }

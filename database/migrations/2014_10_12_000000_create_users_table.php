@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('role');
             $table->string('mobile_number')->unique();
+            $table->string('account_number')->nullable()->unique();
+            $table->decimal('balance', 15, 2)->nullable()->default(0);
+            $table->integer('pin')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
