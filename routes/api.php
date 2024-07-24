@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Transaction
     Route::put('transactions/deposit', [TransactionController::class, 'deposit']);
+    Route::put('transactions/withdraw', [TransactionController::class, 'withdraw']);
 });
 
 Route::post('auth/login', [AuthController::class, 'login'])->middleware('guest');
