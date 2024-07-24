@@ -30,8 +30,8 @@ function transfer() {
         .transfer(form)
         .then((response) => {
             account.balance -= Number(form.amount);
-            // form.receiver_account_number = 0;
-            // form.receiver_name = 0;
+            form.receiver_account_number = 0;
+            form.receiver_name = 0;
             form.amount = 0;
             toast.success(response.data.message);
         })
