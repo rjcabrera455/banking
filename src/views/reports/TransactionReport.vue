@@ -1,34 +1,37 @@
 <script setup>
 import { FilterMatchMode } from 'primevue/api';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
+import reportService from '@/service/reportService';
+import useToast from '@/utils/toast';
 
-const transactions = ref([
-    {
-        transaction_date: '2024-07-12',
-        description: 'Deposit',
-        amount: 5000,
-        status: 'Success'
-    },
-    {
-        transaction_date: '2024-07-12',
-        description: 'Transfer to 09123456789 - Jane Doe',
-        amount: 10000,
-        status: 'Success'
-    },
-    {
-        transaction_date: '2024-07-12',
-        description: 'Funds received from 0912345677 - John Smith',
-        amount: 5000,
-        status: 'Success'
-    }
-]);
+const toast = useToast();
 const loading = ref(false);
+const transactions = ref([]);
 
 const dt = ref(null);
 const filters = ref({});
 
+const getTransactions = () => {
+    loading.value = true;
+    reportService
+        .getTransactions({ include: 'user' })
+        .then((response) => {
+            transactions.value = response.data.data;
+        })
+        .catch((error) => {
+            toast.error(error.response.data.error, error.response.data.message);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+};
+
 onBeforeMount(() => {
     initFilters();
+});
+
+onMounted(() => {
+    getTransactions();
 });
 
 const exportCSV = () => {
@@ -74,25 +77,17 @@ const initFilters = () => {
                         </div>
                     </template>
 
-                    <template #empty> No transaction report found. </template>
+                    <template #empty> No transactions found. </template>
 
                     <template #loading>
                         <ProgressSpinner style="width: 30px; height: 30px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" aria-label="Custom ProgressSpinner" />
                     </template>
 
-                    <!-- Transaction Date -->
-                    <Column field="transaction_date" header="Transaction Date" :sortable="true">
+                    <!-- User -->
+                    <Column field="user.full_name" header="User" :sortable="true">
                         <template #body="slotProps">
-                            <span class="p-column-title">Transaction Date</span>
-                            {{ slotProps.data.transaction_date }}
-                        </template>
-                    </Column>
-
-                    <!-- Description -->
-                    <Column field="description" header="Description" :sortable="true">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Transaction Date</span>
-                            {{ slotProps.data.description }}
+                            <span class="p-column-title">User</span>
+                            {{ slotProps.data.user.full_name }}
                         </template>
                     </Column>
 
@@ -104,18 +99,26 @@ const initFilters = () => {
                         </template>
                     </Column>
 
-                    <!-- Status -->
-                    <Column field="status" header="Status" :sortable="true">
+                    <!-- Remarks -->
+                    <Column field="remarks" header="Remarks" :sortable="true">
                         <template #body="slotProps">
-                            <span class="p-column-title">Status</span>
-                            {{ slotProps.data.status }}
+                            <span class="p-column-title">Remarks</span>
+                            {{ slotProps.data.remarks }}
+                        </template>
+                    </Column>
+
+                    <!-- Transaction Date -->
+                    <Column field="created_at" header="Transaction Date" :sortable="true">
+                        <template #body="slotProps">
+                            <span class="p-column-title">Transaction Date</span>
+                            {{ slotProps.data.created_at }}
                         </template>
                     </Column>
 
                     <!-- Action Buttons -->
                     <Column>
                         <template #body="slotProps">
-                            <Button icon="pi pi-eye" class="mr-2" severity="secondary" rounded v-tooltip.top="'View Transaction'" />
+                            <!-- <Button icon="pi pi-eye" class="mr-2" severity="secondary" rounded v-tooltip.top="'View Transaction'" /> -->
                         </template>
                     </Column>
                 </DataTable>

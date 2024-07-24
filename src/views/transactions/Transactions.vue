@@ -5,30 +5,8 @@ import transactionService from '@/service/transactionService';
 import useToast from '@/utils/toast';
 
 const toast = useToast();
-const departments = ref([]);
-
 const loading = ref(false);
-
-const transactions = ref([
-    {
-        transaction_date: '2024-07-12',
-        description: 'Deposit',
-        amount: 5000,
-        status: 'Success'
-    },
-    {
-        transaction_date: '2024-07-12',
-        description: 'Transfer to 09123456789 - Jane Doe',
-        amount: 10000,
-        status: 'Success'
-    },
-    {
-        transaction_date: '2024-07-12',
-        description: 'Funds received from 0912345677 - John Smith',
-        amount: 5000,
-        status: 'Success'
-    }
-]);
+const transactions = ref([]);
 
 const dt = ref(null);
 const filters = ref({});
