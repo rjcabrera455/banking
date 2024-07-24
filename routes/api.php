@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('transactions/deposit', [TransactionController::class, 'deposit']);
     Route::put('transactions/withdraw', [TransactionController::class, 'withdraw']);
     Route::put('transactions/transfer', [TransactionController::class, 'transfer']);
+
+    // Reports
+    Route::get('reports/transaction', [ReportController::class, 'transaction']);
 });
 
 Route::post('auth/login', [AuthController::class, 'login'])->middleware('guest');
