@@ -6,6 +6,9 @@ const transactionService = {
     },
     deposit(data) {
         return axios.put('transactions/deposit', data);
+    },
+    withdraw(data) {
+        return axios.put('transactions/withdraw', data);
     }
     // updateAccount(data, id) {
     //     return axios.put('accounts/' + id, data);

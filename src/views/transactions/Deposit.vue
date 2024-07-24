@@ -1,10 +1,10 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue';
-import accountService from '@/service/accountService';
+import { reactive, ref, watch } from 'vue';
 import useToast from '@/utils/toast';
 import { useAuthStore } from '@/stores/auth';
-import transactionService from '../../service/transactionService';
+import transactionService from '@/service/transactionService';
 import ValidationErrorMessage from '@/components/ValidationErrorMessage.vue';
+import { RouterLink } from 'vue-router';
 
 const toast = useToast();
 const authStore = useAuthStore();
@@ -77,7 +77,9 @@ watch(
             </div>
 
             <div class="flex gap-3 mt-1">
-                <Button label="Cancel" severity="secondary" outlined />
+                <RouterLink :to="{ name: 'dashboard' }">
+                    <Button label="Cancel" severity="secondary" outlined />
+                </RouterLink>
                 <Button type="submit" label="Deposit" />
             </div>
         </form>
