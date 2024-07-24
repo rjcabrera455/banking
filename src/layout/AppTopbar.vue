@@ -28,7 +28,7 @@ const onTopBarMenuButton = () => {
 };
 const onSettingsClick = () => {
     topbarMenuActive.value = false;
-    router.push('/documentation');
+    router.push('/settings/account');
 };
 const onLogoutClick = () => {
     topbarMenuActive.value = false;

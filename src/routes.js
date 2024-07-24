@@ -71,6 +71,12 @@ export default [
                 component: () => import('@/views/settings/SettingsSystem.vue')
             },
             {
+                path: '/settings/account',
+                name: 'settings.account',
+                meta: { requiresAuth: true },
+                component: () => import('@/views/settings/AccountSettings.vue')
+            },
+            {
                 path: '/uikit/formlayout',
                 name: 'formlayout',
                 component: () => import('@/views/uikit/FormLayout.vue')
