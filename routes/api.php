@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Transaction
     Route::put('transactions/deposit', [TransactionController::class, 'deposit']);
     Route::put('transactions/withdraw', [TransactionController::class, 'withdraw']);
+    Route::get('transactions/receiver', [TransactionController::class, 'receiver']);
+    Route::put('transactions/transfer', [TransactionController::class, 'transfer']);
 });
 
 Route::post('auth/login', [AuthController::class, 'login'])->middleware('guest');
