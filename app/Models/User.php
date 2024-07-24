@@ -29,7 +29,8 @@ class User extends Authenticatable
         'role',
         'account_number',
         'balance',
-        'pin'
+        'pin',
+        'profile'
     ];
 
     /**

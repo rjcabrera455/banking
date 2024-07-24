@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Reports
     Route::get('reports/transaction', [ReportController::class, 'transaction']);
+
+    // Settings
+    Route::put('settings/account', [SettingsController::class, 'updateAccountSettings']);
 });
 
 Route::post('auth/login', [AuthController::class, 'login'])->middleware('guest');

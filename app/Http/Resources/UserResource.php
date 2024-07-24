@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             'balance' => $this->balance,
             'pin' => $this->pin,
             'updated_at' => $this->updated_at,
+            'profile' => $this->profile,
             'full_name' => $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name,
         ];
     }
